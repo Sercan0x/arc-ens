@@ -59,11 +59,18 @@ export default function Home() {
         fontFamily: "sans-serif",
         textAlign: "center",
         marginTop: 50,
+        minHeight: "100vh",
         backgroundImage: "url('https://i.ibb.co/HpqV3ZKx/Arc.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        color: "#fff"
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        backgroundSize: "contain",
+        backgroundAttachment: "fixed",
+        imageRendering: "pixelated",
+        WebkitImageRendering: "pixelated",
+        MozImageRendering: "pixelated",
+        OImageRendering: "pixelated",
+        msInterpolationMode: "nearest-neighbor",
+        color: "white"
       }}
     >
       <div
