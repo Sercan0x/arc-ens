@@ -83,7 +83,7 @@ export default function Home() {
           <h3>Register a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: hakan"
+              placeholder="example: Sercan"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{
@@ -118,7 +118,7 @@ export default function Home() {
           <h3>Resolve a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: hakan"
+              placeholder="example: Sercan"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{
