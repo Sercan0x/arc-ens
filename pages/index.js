@@ -59,38 +59,30 @@ export default function Home() {
         fontFamily: "sans-serif",
         textAlign: "center",
         marginTop: 50,
-        minHeight: "100vh",
         backgroundImage: "url('https://i.ibb.co/HpqV3ZKx/Arc.png')",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundSize: "contain",
-        backgroundAttachment: "fixed",
-        imageRendering: "pixelated",
-        WebkitImageRendering: "pixelated",
-        MozImageRendering: "pixelated",
-        OImageRendering: "pixelated",
-        msInterpolationMode: "nearest-neighbor",
-        color: "white"
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        color: "#fff",
+        backgroundRepeat: "no-repeat"
       }}
     >
       <div
         style={{
-          backdropFilter: "blur(4px)",
-          backgroundColor: "rgba(0,0,0,0.4)",
           borderRadius: 20,
           display: "inline-block",
-          padding: "40px 60px"
+          padding: "40px 60px",
+          background: "transparent"
         }}
       >
         <h1>🪪 ARC Name Service</h1>
         <h3>Testnet (.arc)</h3>
 
-        {/* Register Section */}
         <div style={{ marginTop: 30 }}>
           <h3>Register a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: sercan"
+              placeholder="example: hakan"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{
@@ -120,12 +112,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Resolve Section */}
         <div style={{ marginTop: 50 }}>
           <h3>Resolve a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: sercan"
+              placeholder="example: hakan"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{
