@@ -63,26 +63,27 @@ export default function Home() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
-        color: "#fff",
-        backgroundRepeat: "no-repeat"
+        color: "#fff"
       }}
     >
       <div
         style={{
+          backdropFilter: "blur(0px)",
+          backgroundColor: "rgba(0,0,0,0.4)",
           borderRadius: 20,
           display: "inline-block",
-          padding: "40px 60px",
-          background: "transparent"
+          padding: "40px 60px"
         }}
       >
         <h1>🪪 ARC Name Service</h1>
         <h3>Testnet (.arc)</h3>
 
+        {/* Register Section */}
         <div style={{ marginTop: 30 }}>
           <h3>Register a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: hakan"
+              placeholder="example: sercan"
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{
@@ -112,11 +113,12 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Resolve Section */}
         <div style={{ marginTop: 50 }}>
           <h3>Resolve a Name</h3>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
             <input
-              placeholder="example: hakan"
+              placeholder="example: sercan"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{
