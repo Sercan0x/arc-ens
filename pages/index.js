@@ -59,7 +59,7 @@ export default function Home() {
         fontFamily: "sans-serif",
         textAlign: "center",
         marginTop: 50,
-        backgroundImage: "url('https://i.imgur.com/Fqy6Ifn.png')",
+        backgroundImage: "url('https://i.imgur.com/kv9VdOo.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
