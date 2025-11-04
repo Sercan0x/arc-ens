@@ -19,13 +19,18 @@ export default function Home() {
     try {
       if (!window.ethereum) return alert("MetaMask is required!");
       setLoading(true);
+
       const provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-      const tx = await contract.register(name);
+
+      const formattedName = name.endsWith(".arc") ? name : `${name}.arc`;
+
+      const tx = await contract.register(formattedName);
       await tx.wait();
-      alert(`${name}.arc has been successfully registered!`);
+
+      alert(`${formattedName} has been successfully registered!`);
     } catch (err) {
       console.error(err);
       alert("Error: " + err.message);
@@ -39,7 +44,10 @@ export default function Home() {
       setLoading(true);
       const provider = new ethers.JsonRpcProvider(ARC_RPC);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
-      const address = await contract.resolve(query);
+
+      const formattedQuery = query.endsWith(".arc") ? query : `${query}.arc`;
+      const address = await contract.resolve(formattedQuery);
+
       setResult(
         address === "0x0000000000000000000000000000000000000000"
           ? "Not registered"
@@ -55,104 +63,89 @@ export default function Home() {
 
   return (
     <div
-      style={{
-        fontFamily: "sans-serif",
-        textAlign: "center",
-        marginTop: 50,
-        backgroundImage: "url('https://i.ibb.co/HpqV3ZKx/Arc.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        color: "#fff"
-      }}
-    >
-      <div
-        style={{
-          backdropFilter: "blur(4px)",
-          backgroundColor: "rgba(0,0,0,0.4)",
-          borderRadius: 20,
-          display: "inline-block",
-          padding: "40px 60px"
-        }}
-      >
-        <h1>🪪 ARC Name Service</h1>
-        <h3>Testnet (.arc)</h3>
+  style={{
+    fontFamily: "sans-serif",
+    textAlign: "center",
+    marginTop: 50,
+    backgroundImage: "url('https://i.ibb.co/HpqV3ZKx/Arc.png')",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+    color: "white"
+  }}
+>
+      <h1>🪪 ARC Name Service (Testnet)</h1>
 
-        {/* Register Section */}
-        <div style={{ marginTop: 30 }}>
-          <h3>Register a Name</h3>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-            <input
-              placeholder="example: Sercan"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{
-                padding: 10,
-                width: 280,
-                borderRadius: 8,
-                border: "1px solid #ccc",
-                textAlign: "center"
-              }}
-            />
-            <button
-              onClick={registerName}
-              disabled={loading || !name}
-              style={{
-                width: 280,
-                padding: 10,
-                borderRadius: 8,
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              {loading ? "Processing..." : "Register"}
-            </button>
-          </div>
-        </div>
+      <div style={{ marginTop: 30 }}>
+        <h3>Register a Name (.arc)</h3>
+        <input
+          placeholder="example: sercan"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{
+            padding: 10,
+            width: 250,
+            borderRadius: 8,
+            border: "none",
+            textAlign: "center"
+          }}
+        />
+        <br />
+        <button
+          onClick={registerName}
+          disabled={loading || !name}
+          style={{
+            marginTop: 10,
+            padding: "8px 16px",
+            borderRadius: 8,
+            border: "none",
+            backgroundColor: "#0070f3",
+            color: "white",
+            cursor: "pointer"
+          }}
+        >
+          {loading ? "Processing..." : "Register"}
+        </button>
+      </div>
 
-        {/* Resolve Section */}
-        <div style={{ marginTop: 50 }}>
-          <h3>Resolve a Name</h3>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-            <input
-              placeholder="example: Sercan"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              style={{
-                padding: 10,
-                width: 280,
-                borderRadius: 8,
-                border: "1px solid #ccc",
-                textAlign: "center"
-              }}
-            />
-            <button
-              onClick={resolveName}
-              disabled={loading || !query}
-              style={{
-                width: 280,
-                padding: 10,
-                borderRadius: 8,
-                backgroundColor: "#28a745",
-                color: "#fff",
-                border: "none",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              {loading ? "Processing..." : "Resolve"}
-            </button>
-          </div>
+      <div style={{ marginTop: 50 }}>
+        <h3>Resolve a Name</h3>
+        <input
+          placeholder="example: sercan"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          style={{
+            padding: 10,
+            width: 250,
+            borderRadius: 8,
+            border: "none",
+            textAlign: "center"
+          }}
+        />
+        <br />
+        <button
+          onClick={resolveName}
+          disabled={loading || !query}
+          style={{
+            marginTop: 10,
+            padding: "8px 16px",
+            borderRadius: 8,
+            border: "none",
+            backgroundColor: "#0070f3",
+            color: "white",
+            cursor: "pointer"
+          }}
+        >
+          {loading ? "Processing..." : "Resolve"}
+        </button>
 
-          {result && (
-            <p style={{ marginTop: 20, color: "#fff" }}>
-              <b>{query}.arc</b> address: <code>{result}</code>
-            </p>
-          )}
-        </div>
+        {result && (
+          <p style={{ marginTop: 20 }}>
+            <b>{query.endsWith(".arc") ? query : `${query}.arc`}</b> address:{" "}
+            <code>{result}</code>
+          </p>
+        )}
       </div>
     </div>
   );
