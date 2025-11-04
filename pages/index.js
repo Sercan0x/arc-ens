@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ethers } from "ethers";
 
@@ -20,15 +19,12 @@ export default function Home() {
     try {
       if (!window.ethereum) return alert("MetaMask is required!");
       setLoading(true);
-
       const provider = new ethers.BrowserProvider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-
       const tx = await contract.register(name);
       await tx.wait();
-
       alert(`${name}.arc has been successfully registered!`);
     } catch (err) {
       console.error(err);
@@ -44,7 +40,6 @@ export default function Home() {
       const provider = new ethers.JsonRpcProvider(ARC_RPC);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
       const address = await contract.resolve(query);
-
       setResult(
         address === "0x0000000000000000000000000000000000000000"
           ? "Not registered"
@@ -61,100 +56,99 @@ export default function Home() {
   return (
     <div
       style={{
-        fontFamily: "Inter, sans-serif",
+        fontFamily: "sans-serif",
         textAlign: "center",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        marginTop: 50,
         backgroundImage: "url('https://i.ibb.co/HpqV3ZKx/Arc.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        color: "white",
+        height: "100vh",
+        color: "#fff"
       }}
     >
       <div
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          padding: "40px 60px",
-          borderRadius: "16px",
-          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.5)",
-          backdropFilter: "blur(10px)",
-          maxWidth: "400px",
-          width: "90%",
+          backdropFilter: "blur(4px)",
+          backgroundColor: "rgba(0,0,0,0.4)",
+          borderRadius: 20,
+          display: "inline-block",
+          padding: "40px 60px"
         }}
       >
-        <h1 style={{ marginBottom: 20 }}>🪪 ARC Name Service</h1>
-        <h3 style={{ marginBottom: 30 }}>Testnet (.arc)</h3>
+        <h1>🪪 ARC Name Service</h1>
+        <h3>Testnet (.arc)</h3>
 
-        <div style={{ marginBottom: 40 }}>
+        {/* Register Section */}
+        <div style={{ marginTop: 30 }}>
           <h3>Register a Name</h3>
-          <input
-            placeholder="example: hakan"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{
-              padding: 10,
-              width: "100%",
-              borderRadius: 8,
-              border: "1px solid #ccc",
-              marginTop: 8,
-            }}
-          />
-          <button
-            onClick={registerName}
-            disabled={loading || !name}
-            style={{
-              marginTop: 12,
-              padding: "10px 24px",
-              borderRadius: 8,
-              border: "none",
-              backgroundColor: "#3b82f6",
-              color: "white",
-              cursor: "pointer",
-              width: "100%",
-            }}
-          >
-            {loading ? "Processing..." : "Register"}
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+            <input
+              placeholder="example: hakan"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={{
+                padding: 10,
+                width: 280,
+                borderRadius: 8,
+                border: "1px solid #ccc",
+                textAlign: "center"
+              }}
+            />
+            <button
+              onClick={registerName}
+              disabled={loading || !name}
+              style={{
+                width: 280,
+                padding: 10,
+                borderRadius: 8,
+                backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "bold"
+              }}
+            >
+              {loading ? "Processing..." : "Register"}
+            </button>
+          </div>
         </div>
 
-        <div>
+        {/* Resolve Section */}
+        <div style={{ marginTop: 50 }}>
           <h3>Resolve a Name</h3>
-          <input
-            placeholder="example: hakan"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            style={{
-              padding: 10,
-              width: "100%",
-              borderRadius: 8,
-              border: "1px solid #ccc",
-              marginTop: 8,
-            }}
-          />
-          <button
-            onClick={resolveName}
-            disabled={loading || !query}
-            style={{
-              marginTop: 12,
-              padding: "10px 24px",
-              borderRadius: 8,
-              border: "none",
-              backgroundColor: "#22c55e",
-              color: "white",
-              cursor: "pointer",
-              width: "100%",
-            }}
-          >
-            {loading ? "Processing..." : "Resolve"}
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+            <input
+              placeholder="example: hakan"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              style={{
+                padding: 10,
+                width: 280,
+                borderRadius: 8,
+                border: "1px solid #ccc",
+                textAlign: "center"
+              }}
+            />
+            <button
+              onClick={resolveName}
+              disabled={loading || !query}
+              style={{
+                width: 280,
+                padding: 10,
+                borderRadius: 8,
+                backgroundColor: "#28a745",
+                color: "#fff",
+                border: "none",
+                cursor: "pointer",
+                fontWeight: "bold"
+              }}
+            >
+              {loading ? "Processing..." : "Resolve"}
+            </button>
+          </div>
 
           {result && (
-            <p style={{ marginTop: 20, wordBreak: "break-all" }}>
+            <p style={{ marginTop: 20, color: "#fff" }}>
               <b>{query}.arc</b> address: <code>{result}</code>
             </p>
           )}
